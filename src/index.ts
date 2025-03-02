@@ -88,8 +88,8 @@ app.delete('/categories/:slug', async (c) => {
     return c.json({ message: 'Category not found' }, 404)
   }
 
-  deleteCategory(slug)
-
+  await deleteCategory(slug)
+  
   return c.status(204)
 })
 

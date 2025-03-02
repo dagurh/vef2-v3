@@ -36,10 +36,11 @@ const mockCategories: Array<Category> = [
 const prisma = new PrismaClient()
 
 export async function getCategories(limit: number = 10, offset: number = 0): Promise<Array<Category>> {
-  console.log('getCategories was called')
 
   const categories = await prisma.categories.findMany({
-    orderBy: { id: 'asc' }
+    orderBy: { id: 'asc' },
+    take: limit,
+    skip: offset
   })
 
   return categories;
@@ -82,7 +83,7 @@ export async function updateCategory(categoryToPatch: CategoryToCreatePatchDelet
   return updatedCategory
 }
 
-export async function deleteCategory(slug: string): Promise<void> {
+export async function deleteCategory(slug: string) {
   await prisma.categories.delete({
     where: { slug }
   })
