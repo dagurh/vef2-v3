@@ -2,7 +2,6 @@
   "name": "vef2-v3",
   "type": "module",
   "scripts": {
-    "build": "npx prisma migrate deploy",
     "start": "tsx src/index.ts",
     "dev": "tsx watch src/index.ts"
   },
