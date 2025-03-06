@@ -1,8 +1,10 @@
 import { serve } from '@hono/node-server'
 import { Hono } from 'hono'
 import { createCategory, deleteCategory, getCategories, getCategory, updateCategory, validateCategory } from './categories.db.js'
+import { cors } from 'hono/cors';
 
 const app = new Hono()
+app.use('*', cors());
 
 app.get('/', (c) => {
   const services = {
