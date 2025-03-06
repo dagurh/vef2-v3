@@ -5,7 +5,7 @@
     "start": "tsx src/index.ts",
     "dev": "tsx watch src/index.ts",
     "lint": "eslint . --ext .ts",
-    "setup": "npx prisma studio"
+    "setup": "npx prisma migrate deploy"
   },
   "dependencies": {
     "@hono/node-server": "^1.13.8",
