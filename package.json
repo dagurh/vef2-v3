@@ -4,7 +4,8 @@
   "scripts": {
     "start": "tsx src/index.ts",
     "dev": "tsx watch src/index.ts",
-    "lint": "eslint . --ext .ts"
+    "lint": "eslint . --ext .ts",
+    "setup": "npx prisma studio"
   },
   "dependencies": {
     "@hono/node-server": "^1.13.8",
