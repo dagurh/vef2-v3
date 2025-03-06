@@ -51,7 +51,9 @@ export function validateCategory(categoryToValidate: unknown) {
 }
 
 export async function createCategory(categoryToCreate: CategoryToCreatePatchDelete): Promise<Category> {
+  console.log(categoryToCreate.title)
   const sanitizedTitle = xss(categoryToCreate.title)
+  console.log(sanitizedTitle)
 
   const createdCategory = await prisma.categories.create({
     data: {
