@@ -29,7 +29,7 @@ Fyrir gerðir:
   - `201 Created` (eða `200 OK` sem var áður hér) skilað ásamt upplýsingum um flokk.
   - `400 Bad Request` skilað ef gögn sem send inn eru ekki rétt (vantar gögn, gögn á röngu formi eða innihald þeirra ólöglegt).
   - `500 Internal Error` skilað ef villa kom upp.
-- [] `PATCH /category/:slug` uppfærir flokk:
+- [x] `PATCH /category/:slug` uppfærir flokk:
   - `200 OK` skilað með uppfærðum flokk ef gekk.
   - `400 Bad Request` skilað ef gögn sem send inn eru ekki rétt.
   - `404 Not Found` skilað ef flokkur er ekki til.

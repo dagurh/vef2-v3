@@ -1,6 +1,9 @@
 import { z } from 'zod'
 import { PrismaClient } from '@prisma/client'
+import xss from 'xss'
 
+// slæmt workaround með eslint
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const categorySchema = z.object({
   id: z.number(),
   slug: z.string(),
@@ -19,19 +22,6 @@ const categoryToCreatePatchDeleteSchema = z.object({
 
 type Category = z.infer<typeof categorySchema>
 type CategoryToCreatePatchDelete = z.infer<typeof categoryToCreatePatchDeleteSchema>
-
-const mockCategories: Array<Category> = [
-  { id: 1, slug: 'html', title: 'HTML' },
-  { id: 2, slug: 'css', title: 'CSS' },
-  { id: 3, slug: 'js', title: 'JavaScript' },
-  { id: 4, slug: 'react', title: 'React' },
-  { id: 5, slug: 'vue', title: 'Vue' },
-  { id: 6, slug: 'svelte', title: 'Svelte' },
-  { id: 7, slug: 'angular', title: 'Angular' },
-  { id: 8, slug: 'node', title: 'Node' },
-  { id: 9, slug: 'deno', title: 'Deno' },
-  { id: 10, slug: 'typescript', title: 'TypeScript' }
-]
 
 const prisma = new PrismaClient()
 
@@ -61,10 +51,12 @@ export function validateCategory(categoryToValidate: unknown) {
 }
 
 export async function createCategory(categoryToCreate: CategoryToCreatePatchDelete): Promise<Category> {
+  const sanitizedTitle = xss(categoryToCreate.title)
+
   const createdCategory = await prisma.categories.create({
     data: {
-      title: categoryToCreate.title,
-      slug: categoryToCreate.title.toLowerCase().replace(' ', '-')
+      title: sanitizedTitle,
+      slug: sanitizedTitle.toLowerCase().replace(' ', '-')
     }
   })
 
@@ -72,11 +64,13 @@ export async function createCategory(categoryToCreate: CategoryToCreatePatchDele
 }
 
 export async function updateCategory(categoryToPatch: CategoryToCreatePatchDelete, slug: string): Promise<Category> {
+  const sanitizedTitle = xss(categoryToPatch.title)
+
   const updatedCategory = await prisma.categories.update({
     where: { slug },
     data: {
-      slug: categoryToPatch.title.toLowerCase().replace(' ', '-'),
-      title: categoryToPatch.title
+      slug: sanitizedTitle.toLowerCase().replace(' ', '-'),
+      title: sanitizedTitle
     }
   })
 
@@ -84,7 +78,7 @@ export async function updateCategory(categoryToPatch: CategoryToCreatePatchDelet
 }
 
 export async function deleteCategory(slug: string) {
-  await prisma.categories.delete({
-    where: { slug }
+  return await prisma.categories.delete({
+    where: { slug: slug}
   })
 }
